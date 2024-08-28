@@ -8,7 +8,6 @@ services:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
     environment:
-      - NODE_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@db_test_shopper:5432/test_shopper
       - GEMINI_API_KEY=${GEMINI_API_KEY}
     ports:
