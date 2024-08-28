@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  test-shopper:
+    image: node:20
+    working_dir: /usr/src/app/
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@db_test_shopper:5432/test_shopper
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    ports:
+      - "3333:3333"
+    depends_on:
+      - db_test_shopper
+    command: bash -c "npm install && npm run dev"
+
+  db_test_shopper:
+    image: bitnami/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_shopper
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
