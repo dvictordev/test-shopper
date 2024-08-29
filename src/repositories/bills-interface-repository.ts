@@ -1,3 +1,5 @@
+import { Measures, MeasureType, Prisma } from "@prisma/client";
+
 export interface BillPropsRequest {
   image: string;
   customer_code: string;
@@ -5,11 +7,7 @@ export interface BillPropsRequest {
   measure_type: "WATER" | "GAS";
 }
 
-export interface BillProps {
-  measure_uuid?: string;
-  measure_value: number;
-  image_url: string;
-}
 export interface BillsRepository {
-  upload(data: BillProps): Promise<BillProps | null>;
+  upload(data: Prisma.MeasuresCreateInput): Promise<Measures | null>;
+  findByDateAndType(date: string, type: MeasureType): Promise<Measures | null>;
 }

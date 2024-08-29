@@ -1,26 +1,35 @@
 import * as fs from "fs";
 import path from "path";
-import tmp from "tmp";
+import { fileManager } from "../google";
 
-export function generateUrl(image: string) {
-  // Cria um arquivo temporário na pasta temporária padrão
-  const tempFile = tmp.fileSync({ postfix: ".png" });
+export async function generateUrl(image: string) {
+  const tempDir = path.join(__dirname, "../../", "tmp", "uploads");
 
-  // Grava a imagem no arquivo temporário
-  fs.writeFileSync(tempFile.name, image, "base64");
+  if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+  }
 
-  //define o tempo em que o arquivo sera excluido.
-  //esta definido para 2 minutos, caso seja desejado mais tempo é necessario alterar.
+  const tempFileName = `temp-file.png`;
+  const tempFilePath = path.join(tempDir, tempFileName);
+
+  fs.writeFileSync(tempFilePath, image, "base64");
+
+  const uploadResponse = await fileManager.uploadFile(tempFilePath, {
+    mimeType: "image/png",
+    displayName: tempFileName,
+  });
+
+  const getFileResponse = await fileManager.getFile(uploadResponse.file.name);
+
   setTimeout(() => {
-    fs.unlink(tempFile.name, (err) => {
+    fs.unlink(tempFilePath, (err) => {
       if (err) {
         console.error(`Erro ao deletar o arquivo: ${err.message}`);
       } else {
-        console.log(`Arquivo deletado: ${tempFile.name}`);
+        console.log(`Arquivo deletado: ${tempFilePath}`);
       }
     });
-  }, 120000); // 120000 milissegundos = 2 minutos
+  }, 60000); // 60000 milissegundos = 1 minuto
 
-  // Retorna o caminho completo para o arquivo na pasta temporária padrão
-  return tempFile.name;
+  return getFileResponse;
 }

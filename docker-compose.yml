@@ -14,7 +14,7 @@ services:
       - "3333:3333"
     depends_on:
       - db_test_shopper
-    command: bash -c "npm install && npm run dev"
+    command: bash -c "npm install && npx prisma migrate dev && npm run dev"
 
   db_test_shopper:
     image: bitnami/postgresql

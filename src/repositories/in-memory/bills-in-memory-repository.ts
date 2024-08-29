@@ -1,18 +1,41 @@
 import { randomUUID } from "crypto";
-import { BillsRepository, BillProps } from "../bills-interface-repository";
+import { BillsRepository } from "../bills-interface-repository";
+import { Prisma, Measures, MeasureType } from "@prisma/client";
 
-export class BillsInMemoryRepository implements BillsRepository {
-  public bills: any = [];
+export class MeasuresInMemoryRepositories implements BillsRepository {
+  public measures: Measures[] = [];
 
-  async upload(data: BillProps): Promise<BillProps> {
-    const bill = {
-      measure_uuid: randomUUID(),
-      measure_value: data.measure_value,
-      image_url: data.image_url,
+  async upload(data: Prisma.MeasuresCreateInput): Promise<Measures | null> {
+    const measure: Measures = {
+      confirmed: null,
+      customer_code: "12341234",
+      id: data.id ? data.id : randomUUID(),
+      measure_date: new Date(data.measure_date),
+      measure_type: data.measure_type ? data.measure_type : "WATER",
+      value: data.value,
     };
 
-    this.bills.push(bill);
+    this.measures.push(measure);
 
-    return bill;
+    return measure;
+  }
+
+  async findByDateAndType(
+    date: string,
+    type: MeasureType
+  ): Promise<Measures | null> {
+    const measure = this.measures.find((item) => {
+      const itemDate = new Date(item.measure_date);
+      return (
+        itemDate.toDateString() === new Date(date).toDateString() &&
+        item.measure_type === type
+      );
+    });
+
+    if (!measure) {
+      return null;
+    }
+
+    return measure;
   }
 }
