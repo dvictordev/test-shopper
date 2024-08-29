@@ -1,4 +1,4 @@
-export class AlreadyExisteMeasuresOnDate extends Error {
+export class AlreadyExisteReadOnDate extends Error {
   public errorCode: string;
   public errorDescription: string;
 

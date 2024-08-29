@@ -3,14 +3,14 @@ import * as fs from "fs";
 
 import {
   BillPropsRequest,
-  BillsRepository,
+  ReadsRepository,
 } from "../repositories/bills-interface-repository";
 import { fileToGenerativePart } from "../utils/convertToFilePart";
 import { generateUrl } from "../utils/generateUrl";
-import { AlreadyExisteMeasuresOnDate } from "./errors/already-existe-measure-on-date-error";
+import { AlreadyExisteReadOnDate } from "./errors/already-existe-measure-on-date-error";
 
 export class UploadUseCase {
-  constructor(private billsRepository: BillsRepository) {}
+  constructor(private readsRepository: ReadsRepository) {}
 
   async execute({
     customer_code,
@@ -19,13 +19,13 @@ export class UploadUseCase {
     measure_type,
   }: BillPropsRequest) {
     const alreadyExisteMeasuresOnDate =
-      await this.billsRepository.findByDateAndType(
+      await this.readsRepository.findByDateAndType(
         measure_datetime,
         measure_type
       );
 
     if (alreadyExisteMeasuresOnDate) {
-      throw new AlreadyExisteMeasuresOnDate(
+      throw new AlreadyExisteReadOnDate(
         "DOUBLE_REPORT",
         "Leitura do mês já realizada"
       );
@@ -41,7 +41,7 @@ export class UploadUseCase {
 
     const value = Number(response.text().match(/\d+/));
 
-    const reading = await this.billsRepository.upload({
+    const reading = await this.readsRepository.upload({
       customer_code,
       measure_date: measure_datetime,
       value,

@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vitest } from "vitest";
 import { UploadUseCase } from "./upload";
 import { MeasuresInMemoryRepositories } from "../repositories/in-memory/bills-in-memory-repository";
-import { BillsRepository } from "../repositories/bills-interface-repository";
+import { ReadsRepository } from "../repositories/bills-interface-repository";
 import { billBase64Example } from "../utils/bill-base64-example";
-import { AlreadyExisteMeasuresOnDate } from "../use-cases/errors/already-existe-measure-on-date-error";
+import { AlreadyExisteReadOnDate } from "../use-cases/errors/already-existe-measure-on-date-error";
 
 let uploadUseCase: UploadUseCase;
-let billsRepository: BillsRepository;
+let readsRepository: ReadsRepository;
 describe("Upload Use Case", () => {
   beforeEach(() => {
-    billsRepository = new MeasuresInMemoryRepositories();
-    uploadUseCase = new UploadUseCase(billsRepository);
+    readsRepository = new MeasuresInMemoryRepositories();
+    uploadUseCase = new UploadUseCase(readsRepository);
   });
 
   it("should be able to upload an image and get the value of the measure", async () => {
@@ -33,7 +33,7 @@ describe("Upload Use Case", () => {
   });
 
   it("should not be able to get the measure of the same accoun twice", async () => {
-    await billsRepository.upload({
+    await readsRepository.upload({
       customer_code: "123456",
       value: 12345,
       measure_date: new Date("2024-08-29"),
@@ -46,6 +46,6 @@ describe("Upload Use Case", () => {
         measure_datetime: "2024-08-29",
         measure_type: "WATER",
       })
-    ).rejects.toBeInstanceOf(AlreadyExisteMeasuresOnDate);
+    ).rejects.toBeInstanceOf(AlreadyExisteReadOnDate);
   });
 });

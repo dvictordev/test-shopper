@@ -7,7 +7,9 @@ export interface BillPropsRequest {
   measure_type: "WATER" | "GAS";
 }
 
-export interface BillsRepository {
-  upload(data: Prisma.MeasuresCreateInput): Promise<Measures | null>;
+export interface ReadsRepository {
+  upload(data: Prisma.MeasuresCreateInput): Promise<Measures>;
   findByDateAndType(date: string, type: MeasureType): Promise<Measures | null>;
+  findById(id: string): Promise<Measures | null>;
+  updateRead(id: string, value: number): Promise<void>;
 }
