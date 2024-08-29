@@ -4,6 +4,8 @@ import { UploadUseCase } from "../../use-cases/upload";
 import { validateImageBase } from "../../utils/validate-image-base";
 import { z, ZodError } from "zod";
 import { PrismaMeasureRepository } from "../../repositories/prisma/prisma-measure-repository";
+import { MeasuresInMemoryRepositories } from "../../repositories/in-memory/bills-in-memory-repository";
+import { AlreadyExisteMeasuresOnDate } from "../../use-cases/errors/already-existe-measure-on-date-error";
 
 export async function uploadController(
   request: FastifyRequest,
@@ -43,8 +45,13 @@ export async function uploadController(
         error_code: "INVALID_DATA",
         error_description: `${error.errors[0].path}: ${error.errors[0].message}`,
       });
-    } else {
-      return reply.send(error);
+    } else if (error instanceof AlreadyExisteMeasuresOnDate) {
+      return reply.status(409).send({
+        error_code: error.errorCode,
+        error_description: error.message,
+      });
     }
+
+    return reply.send(error);
   }
 }
