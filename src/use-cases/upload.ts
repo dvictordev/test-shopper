@@ -18,6 +18,7 @@ export class UploadUseCase {
     measure_type,
   }: BillPropsRequest) {
     const imagePath = generateUrl(image);
+
     const prompt = `Preciso que voce identifique o valor do medidor dessa conta de ${measure_type} e retorne apenas o valor`;
 
     const file = fileToGenerativePart(image, "image/jpeg");
@@ -30,12 +31,6 @@ export class UploadUseCase {
       image_url: imagePath,
       measure_value: value,
     });
-
-    //define o tempo em que o arquivo sera excluido.
-    //esta definido para 5 minutos, caso seja desejado mais tempo é necessario alterar.
-    setTimeout(() => {
-      fs.unlinkSync(imagePath);
-    }, 300000);
 
     return reading;
   }
