@@ -3,7 +3,7 @@
 ## Descrição
 
 Aplicação desenvolvida como um teste técnico para a vaga de Desenvolvedor Full-Stack Júnior.
-Este é um projeto Node.js que utiliza Fastify como framework web, Prisma como ORM e `zod` para validação de esquemas.
+Este é um projeto Node.js que utiliza Fastify como framework web, Prisma como ORM e `zod` para validação de schemas.
 O projeto também faz uso do Vitest para testes.
 
 ## Pré-requisitos
