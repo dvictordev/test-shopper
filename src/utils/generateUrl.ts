@@ -19,6 +19,7 @@ export async function generateUrl(image: string) {
     displayName: tempFileName,
   });
 
+  // usei a api do google para subir o arquivo que é acessivel com a api_key gemini e gerar uma URL.
   const getFileResponse = await fileManager.getFile(uploadResponse.file.name);
 
   setTimeout(() => {
