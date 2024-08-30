@@ -4,7 +4,6 @@ import { UploadUseCase } from "../../use-cases/upload";
 import { validateImageBase } from "../../utils/validate-image-base";
 import { z, ZodError } from "zod";
 import { PrismaMeasureRepository } from "../../repositories/prisma/prisma-measure-repository";
-import { MeasuresInMemoryRepositories } from "../../repositories/in-memory/measures-in-memory-repository";
 import { AlreadyExisteReadOnDate } from "../../use-cases/errors/already-existe-measure-on-date-error";
 
 export async function uploadController(
@@ -16,7 +15,9 @@ export async function uploadController(
       image: z.string(),
       customer_code: z.string(),
       measure_datetime: z.string(),
-      measure_type: z.enum(["WATER", "GAS"]).default("WATER"),
+      measure_type: z.enum(["WATER", "GAS"], {
+        message: "Invalid measure_type",
+      }),
     });
 
     const { customer_code, image, measure_datetime, measure_type } =

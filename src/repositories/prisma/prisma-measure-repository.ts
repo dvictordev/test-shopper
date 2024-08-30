@@ -1,14 +1,12 @@
 import { Prisma, Measures, MeasureType } from "@prisma/client";
-import { ReadsRepository } from "../measures-interface-repository";
+import { MeasuresRepository } from "../measures-interface-repository";
 import { prisma } from "../../db/prisma";
 
-export class PrismaMeasureRepository implements ReadsRepository {
+export class PrismaMeasureRepository implements MeasuresRepository {
   async upload({
     customer_code,
     measure_date,
     value,
-    confirmed,
-    id,
     measure_type,
   }: Prisma.MeasuresCreateInput): Promise<Measures> {
     const measure = await prisma.measures.create({

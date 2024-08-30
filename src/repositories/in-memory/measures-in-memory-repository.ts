@@ -1,14 +1,14 @@
 import { randomUUID } from "crypto";
-import { ReadsRepository } from "../measures-interface-repository";
+import { MeasuresRepository } from "../measures-interface-repository";
 import { Prisma, Measures, MeasureType } from "@prisma/client";
 
-export class MeasuresInMemoryRepositories implements ReadsRepository {
+export class MeasuresInMemoryRepositories implements MeasuresRepository {
   public reads: Measures[] = [];
 
   async upload(data: Prisma.MeasuresCreateInput): Promise<Measures> {
     const measure: Measures = {
       confirmed: data.confirmed ? new Date(data.confirmed) : null,
-      customer_code: "12341234",
+      customer_code: data.customer_code,
       id: data.id ? data.id : randomUUID(),
       measure_date: new Date(data.measure_date),
       measure_type: data.measure_type ? data.measure_type : "WATER",

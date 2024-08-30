@@ -1,4 +1,4 @@
-import { ReadsRepository } from "../repositories/measures-interface-repository";
+import { MeasuresRepository } from "../repositories/measures-interface-repository";
 
 import { InvalidReadError } from "./errors/invalid-measure-error";
 interface ConfirmPropsRequest {
@@ -6,10 +6,10 @@ interface ConfirmPropsRequest {
   confirmed_value: number;
 }
 export class ConfirmUseCase {
-  constructor(private readsRepository: ReadsRepository) {}
+  constructor(private measuresRepository: MeasuresRepository) {}
 
   async execute({ confirmed_value, readId }: ConfirmPropsRequest) {
-    const read = await this.readsRepository.findById(readId);
+    const read = await this.measuresRepository.findById(readId);
 
     if (!read) {
       throw new InvalidReadError(
@@ -27,7 +27,7 @@ export class ConfirmUseCase {
       );
     }
 
-    await this.readsRepository.updateRead(readId, confirmed_value);
+    await this.measuresRepository.updateRead(readId, confirmed_value);
 
     return {
       success: true,

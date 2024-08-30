@@ -1,38 +1,31 @@
 import { MeasureType } from "@prisma/client";
-import { ReadsRepository } from "../repositories/measures-interface-repository";
+import { MeasuresRepository } from "../repositories/measures-interface-repository";
 
 import { InvalidReadError } from "./errors/invalid-measure-error";
-interface ConfirmPropsRequest {
+interface GetMeasuresPropsRequest {
   customer_code: string;
-  measure_type?: MeasureType;
+  measure_type?: MeasureType | null;
 }
-export class ConfirmUseCase {
-  constructor(private readsRepository: ReadsRepository) {}
+export class GetMeausureUseCase {
+  constructor(private readsRepository: MeasuresRepository) {}
 
-  async execute({ customer_code, measure_type }: ConfirmPropsRequest) {
+  async execute({ customer_code, measure_type }: GetMeasuresPropsRequest) {
     const measures = await this.readsRepository.findManyByCustomer(
       customer_code,
       measure_type
     );
 
-    // if (!read) {
-    //   throw new InvalidReadError(
-    //     "MEASURE_NOT_FOUND",
-    //     "Leitura não encontrada",
-    //     404
-    //   );
-    // }
-
-    // if (read.confirmed != null) {
-    //   throw new InvalidReadError(
-    //     "CONFIRMATION_DUPLICATE",
-    //     "Leitura do mês já confirmada",
-    //     409
-    //   );
-    // }
+    if (measures.length <= 0) {
+      throw new InvalidReadError(
+        "MEASURES_NOT_FOUND",
+        "Nenhuma leitura encontrada",
+        404
+      );
+    }
 
     return {
-      success: true,
+      customer_code,
+      measures,
     };
   }
 }
