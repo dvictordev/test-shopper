@@ -1,5 +1,4 @@
-````markdown
-# test-shopper
+### test-shopper
 
 ## Descrição
 
@@ -22,7 +21,6 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
    git clone <URL_DO_REPOSITORIO>
    cd test-shopper
    ```
-````
 
 2. Instale as dependências:
 
