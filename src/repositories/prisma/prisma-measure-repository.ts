@@ -1,5 +1,5 @@
 import { Prisma, Measures, MeasureType } from "@prisma/client";
-import { ReadsRepository } from "../bills-interface-repository";
+import { ReadsRepository } from "../measures-interface-repository";
 import { prisma } from "../../db/prisma";
 
 export class PrismaMeasureRepository implements ReadsRepository {
@@ -57,5 +57,19 @@ export class PrismaMeasureRepository implements ReadsRepository {
         confirmed: new Date(),
       },
     });
+  }
+
+  async findManyByCustomer(
+    customer_code: string,
+    type?: MeasureType
+  ): Promise<Measures[]> {
+    const measures = await prisma.measures.findMany({
+      where: {
+        customer_code,
+        measure_type: type ? type : undefined,
+      },
+    });
+
+    return measures;
   }
 }

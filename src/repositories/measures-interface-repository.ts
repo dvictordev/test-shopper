@@ -12,4 +12,8 @@ export interface ReadsRepository {
   findByDateAndType(date: string, type: MeasureType): Promise<Measures | null>;
   findById(id: string): Promise<Measures | null>;
   updateRead(id: string, value: number): Promise<void>;
+  findManyByCustomer(
+    customer_code: string,
+    type?: MeasureType
+  ): Promise<Measures[]>;
 }

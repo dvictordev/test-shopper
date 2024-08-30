@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vitest } from "vitest";
 import { UploadUseCase } from "./upload";
-import { MeasuresInMemoryRepositories } from "../repositories/in-memory/bills-in-memory-repository";
-import { ReadsRepository } from "../repositories/bills-interface-repository";
+import { MeasuresInMemoryRepositories } from "../repositories/in-memory/measures-in-memory-repository";
+import { ReadsRepository } from "../repositories/measures-interface-repository";
 import { billBase64Example } from "../utils/bill-base64-example";
 import { ConfirmUseCase } from "./confirm";
 import { randomUUID } from "crypto";

@@ -4,7 +4,7 @@ import * as fs from "fs";
 import {
   BillPropsRequest,
   ReadsRepository,
-} from "../repositories/bills-interface-repository";
+} from "../repositories/measures-interface-repository";
 import { fileToGenerativePart } from "../utils/convertToFilePart";
 import { generateUrl } from "../utils/generateUrl";
 import { AlreadyExisteReadOnDate } from "./errors/already-existe-measure-on-date-error";

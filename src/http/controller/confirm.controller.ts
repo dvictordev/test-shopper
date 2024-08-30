@@ -4,7 +4,7 @@ import { UploadUseCase } from "../../use-cases/upload";
 import { validateImageBase } from "../../utils/validate-image-base";
 import { z, ZodError } from "zod";
 import { PrismaMeasureRepository } from "../../repositories/prisma/prisma-measure-repository";
-import { MeasuresInMemoryRepositories } from "../../repositories/in-memory/bills-in-memory-repository";
+import { MeasuresInMemoryRepositories } from "../../repositories/in-memory/measures-in-memory-repository";
 import { AlreadyExisteReadOnDate } from "../../use-cases/errors/already-existe-measure-on-date-error";
 import { ConfirmUseCase } from "../../use-cases/confirm";
 import { InvalidReadError } from "../../use-cases/errors/invalid-measure-error";

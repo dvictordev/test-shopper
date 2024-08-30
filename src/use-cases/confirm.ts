@@ -1,4 +1,4 @@
-import { ReadsRepository } from "../repositories/bills-interface-repository";
+import { ReadsRepository } from "../repositories/measures-interface-repository";
 
 import { InvalidReadError } from "./errors/invalid-measure-error";
 interface ConfirmPropsRequest {

@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { ReadsRepository } from "../bills-interface-repository";
+import { ReadsRepository } from "../measures-interface-repository";
 import { Prisma, Measures, MeasureType } from "@prisma/client";
 
 export class MeasuresInMemoryRepositories implements ReadsRepository {
@@ -58,5 +58,18 @@ export class MeasuresInMemoryRepositories implements ReadsRepository {
     }
 
     return this.reads[readIndex];
+  }
+
+  async findManyByCustomer(
+    customer_code: string,
+    type?: MeasureType
+  ): Promise<Measures[]> {
+    const measures = this.reads.filter(
+      (item) =>
+        item.customer_code == customer_code &&
+        (!type || item.measure_type === type)
+    );
+
+    return measures;
   }
 }
